@@ -83,19 +83,22 @@ A aplicação possui três módulos principais, cada um com estrutura de compone
 - [x] Interfaces `Pais` e `NovoPais` implementadas.
 - [x] Refatoração do método `enviarPost` com lógica condicional aprimorada
 - [x] Integração completa com o backend (CRUD funcional)
+- [x] refatoração do httpService e urlApi;
+- [x] Pos alteração testar o crud novamente!
 > Status: **finalizado** 
 
 #### 2. Pontos Turísticos
 - [x] Componentes criados: cadastro-pontos-turisticos e pontos-turisticos
-- [ ] Interfaces `PontoTuristico` e `NovoPontoTuristico` pendentes
-- [ ] Implementação da lógica funcional baseada no padrão do módulo Países
-- [ ] Desenvolvimento da integração com o backend (CRUD)
-- [ ] Verificar o readme.md do projeto para entender qual é a relação das tabelas.
+- [x] Interfaces `PontoTuristico` e `NovoPontoTuristico` implementadas
+- [x] Implementação da lógica funcional (html e ts) para lista de pontos turisticos
+- [ ] Implementação da lógica funcional (html e ts) para cadastro de pontos turisticos
+- [ ] Desenvolvimento da integração com o backend (CRUD) para pontos turisticos
+- [ ] Verificar o readme.md do projeto para entender qual é a relação das tabelas
 > Status: **Em desenvolvimento**
 
 #### 3. Comentários
 - [x] Componentes criados: cadastro-comentario e comentarios.
-- [ ] Interface `Comentario` e `NovoComentario` pendentes.
+- [x] Interface `Comentario` e `NovoComentario` pendentes.
 - [ ] Implementação da lógica funcional baseada no padrão do módulo Países
 - [ ] Desenvolvimento da integração com o backend (CRUD)
 - [ ] Verificar o readme.md do projeto para entender qual é a relação das tabelas.
