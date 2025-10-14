@@ -1,5 +1,5 @@
 export interface Pais {
-  id: string,
+  id: number,
   nome: string,
   sigla: string,
   continente: string,

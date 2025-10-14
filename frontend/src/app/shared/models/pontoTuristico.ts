@@ -1,4 +1,4 @@
-import { Estacao } from "../enums/estacoes";
+import { Estacoes } from "../enums/estacoes";
 import { Comentario } from "./comentario";
 import { Pais } from "./pais";
 
@@ -7,7 +7,7 @@ export interface PontoTuristico {
   nome: string;
   resumo: string;
   cidade: string;
-  melhorEstacao: Estacao;
+  melhorEstacao: Estacoes;
   paisId: Pais['id'];
   paisNome: Pais['nome'];
   comentarios: Comentario[];
@@ -18,6 +18,6 @@ export interface NovoPontoTuristico {
   nome: string;
   resumo: string;
   cidade: string;
-  melhorEstacao: Estacao;
+  melhorEstacao: Estacoes;
   paisId: Pais['id'];
 }

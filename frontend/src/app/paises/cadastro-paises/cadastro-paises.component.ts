@@ -13,7 +13,7 @@ import { triggerFormValidators } from 'src/app/shared/util';
 })
 export class CadastroPaisesComponent implements OnInit {
 
-  idPais: string | null = null;
+  idPais: number | null = null;
   formPais: FormGroup;
   title: string = "Novo cadastro de País";
 
@@ -33,8 +33,11 @@ export class CadastroPaisesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.idPais = this.route.snapshot.paramMap.get('idPais');
-    if (this.idPais) {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    this.idPais = idParam ? Number(idParam) : null;
+
+
+    if (this.idPais !== null) {
       this.title = "Alteração do País";
       this.buscaDadosPais();
     }
@@ -42,7 +45,7 @@ export class CadastroPaisesComponent implements OnInit {
 
   salvar() {
     if (this.validarRegistro()) {
-      if (this.idPais) {
+      if (this.idPais !== null) {
         this.enviarPut();
       } else {
         this.enviarPost();
@@ -58,9 +61,6 @@ export class CadastroPaisesComponent implements OnInit {
   }
 
   enviarPost(): void {
-    const ddiValue = this.formPais.get('ddi')?.value;
-    console.log("valor do ddi:", ddiValue);
-
     if (this.formPais.valid) {
       const { nome, sigla, continente, ddi } = this.formPais.value;
 
@@ -87,7 +87,7 @@ export class CadastroPaisesComponent implements OnInit {
 
   enviarPut() {
     this.http.put('pais/' + this.idPais, this.formPais.value).subscribe({
-      next: (resposta) => {
+      next: () => {
         this.poNotification.success("Registro atualizado com sucesso!");
         this.voltar();
       },
@@ -98,7 +98,7 @@ export class CadastroPaisesComponent implements OnInit {
   }
 
   voltar() {
-    this.router.navigate(['/pais'], { relativeTo: this.route })
+    this.router.navigate(['/pais'])
   }
 
   buscaDadosPais() {

@@ -32,7 +32,7 @@ export class PontosTuristicosComponent implements OnInit {
       {
         label: 'Editar',
         icon: 'po-icon-edit',
-        action: (row: PontoTuristico) => { this.navegarParaCadastro(row.id.toString()) }
+        action: (row: PontoTuristico) => { this.navegarParaCadastroPontoTuristico(row.id.toString()) }
       },
       {
         label: 'Excluir',
@@ -54,9 +54,12 @@ export class PontosTuristicosComponent implements OnInit {
     });
   }
 
-  public navegarParaCadastro(idPonto: string = "") {
-    this.router.navigate(['cadastro', idPonto], { relativeTo: this.activatedRoute });
+  public navegarParaCadastroPontoTuristico(idPonto: string = '') {
+
+    const rota = idPonto ? ['/ponto-turistico', idPonto] : ['/ponto-turistico/novo'];
+    this.router.navigate(rota);
   }
+
 
   public carregarPontos() {
     this.httpService.get('ponto-turistico').subscribe({

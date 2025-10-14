@@ -1,4 +1,43 @@
-<po-page-detail 
-    p-title="Novo Ponto Turistico">
+<po-page-detail [p-title]="title">
+  <form [formGroup]="formPonto">
 
+    <!-- Linha com 4 campos lado a lado -->
+    <div class="po-row">
+      <div class="po-col po-md-3">
+        <po-input formControlName="nome" p-label="Nome do Ponto Turístico">
+        </po-input>
+      </div>
+
+      <div class="po-col po-md-3">
+        <po-input formControlName="cidade" p-label="Cidade">
+        </po-input>
+      </div>
+
+      <div class="po-col po-md-3">
+        <po-select formControlName="melhorEstacao" p-label="Melhor Estação para Visitar"
+          [p-options]="getListaEstacoes()">
+        </po-select>
+      </div>
+
+      <div class="po-col po-md-3">
+        <po-select formControlName="paisId" p-label="País" [p-options]="listaDePaises">
+        </po-select>
+      </div>
+    </div>
+
+    <!-- Campo resumo ocupando toda a largura -->
+    <div class="po-row">
+      <div class="po-col po-md-12">
+        <po-textarea formControlName="resumo" p-label="Resumo" rows="4">
+        </po-textarea>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- Botões -->
+  <div class="po-row po-pt-2" style="justify-content: center; gap: 16px;">
+    <po-button p-label="Salvar" (p-click)="salvar()"></po-button>
+    <po-button p-label="Voltar" (p-click)="voltar()"></po-button>
+  </div>
 </po-page-detail>

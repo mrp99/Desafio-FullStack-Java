@@ -10,78 +10,22 @@ const routes: Routes = [
   {
     path: 'pais',
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        component: PaisesComponent
-      },
-      {
-        path: 'cadastro',
-        children: [
-          {
-            path: ':idPais',
-            component: CadastroPaisesComponent,
-            data: { tipoCadastroPais: '' }
-          },
-          {
-            path: '',
-            pathMatch: 'full',
-            component: CadastroPaisesComponent,
-            data: { tipoCadastroPais: 'new' }
-          }
-        ]
-      }
+      { path: '', component: PaisesComponent },
+      { path: 'novo', component: CadastroPaisesComponent },
+      { path: ':id', component: CadastroPaisesComponent }
     ]
   },
   {
     path: 'ponto-turistico',
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        component: PontosTuristicosComponent,
-      },
-      {
-        path: 'cadastro',
-        pathMatch: 'full',
-        children:[
-          {
-            path: '',
-            pathMatch: 'full',
-            component: CadastroPontosTuristicosComponent,
-            data: { tipoCadastroPontoTuristico: 'new' }
-          },
-          {
-            path: ':idPontoTuristico',
-            component: CadastroPontosTuristicosComponent,
-            data: { tipoCadastroPontoTuristico: 'view' },
-            children: [
-              {
-                path: 'comentario',
-                children: [
-                  {
-                    path: '',
-                    pathMatch: 'full',
-                    component: CadastroComentarioComponent,
-                    data: { tipoCadastroComentario: 'new' }
-                  },
-                  {
-                    path: ':idComentario',
-                    component: CadastroComentarioComponent,
-                    data: { tipoCadastroComentario: 'view' }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      { path: '', component: PontosTuristicosComponent },
+      { path: 'novo', component: CadastroPontosTuristicosComponent },
+      { path: ':id', component: CadastroPontosTuristicosComponent },
+      { path: ':id/comentario', component: CadastroComentarioComponent },
+      { path: ':id/comentario/:idComentario', component: CadastroComentarioComponent }
     ]
   },
-  {
-    path: "**",
-    redirectTo: "pais"
-  }
+  { path: '**', redirectTo: 'pais' }
 ];
 
 @NgModule({
@@ -89,3 +33,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

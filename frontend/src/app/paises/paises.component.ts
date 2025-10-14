@@ -20,7 +20,7 @@ export class PaisesComponent implements OnInit {
     private poNotification: PoNotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute) { }
-  s
+
   ngOnInit(): void {
     this.carregarPaises()
   }
@@ -30,12 +30,12 @@ export class PaisesComponent implements OnInit {
       {
         label: 'Editar',
         icon: 'po-icon-edit',
-        action: (row: Pais) => { this.navegarParaCadastro(row.id) }
+        action: (row: Pais) => { this.navegarParaCadastro(row.id.toString()) }
       },
       {
         label: 'Excluir',
         icon: 'po-icon-delete',
-        action: (row: Pais) => { this.deletarCadastro(row.id) }
+        action: (row: Pais) => { this.deletarCadastro(row.id.toString()) }
       }
     ]
   }
@@ -54,7 +54,8 @@ export class PaisesComponent implements OnInit {
   }
 
   navegarParaCadastro(codigoPais: string = "") {
-    this.router.navigate(['cadastro', codigoPais], { relativeTo: this.activatedRoute })
+    const rota = codigoPais ? ['/pais', codigoPais] : ['/pais/novo'];
+    this.router.navigate(rota);
   }
 
   carregarPaises() {

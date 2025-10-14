@@ -81,20 +81,23 @@ A aplicação possui três módulos principais, cada um com estrutura de compone
 #### 1. Países
 - [x] Componentes criados: cadastro-paises e paises.
 - [x] Interfaces `Pais` e `NovoPais` implementadas.
-- [x] Refatoração do método `enviarPost` com lógica condicional aprimorada
-- [x] Integração completa com o backend (CRUD funcional)
+- [x] Refatoração do método `enviarPost` com lógica condicional aprimorada.
+- [x] Refatoração da cadastro-pais o ts esteja alinhada com o backend.
+- [x] Integração completa com o backend (CRUD funcional).
+- [x] Refatoração das rotas para orginazação funcional do código.
 - [x] refatoração do httpService e urlApi;
 - [x] Pos alteração testar o crud novamente!
 > Status: **finalizado** 
 
 #### 2. Pontos Turísticos
-- [x] Componentes criados: cadastro-pontos-turisticos e pontos-turisticos
-- [x] Interfaces `PontoTuristico` e `NovoPontoTuristico` implementadas
-- [x] Implementação da lógica funcional (html e ts) para lista de pontos turisticos
-- [ ] Implementação da lógica funcional (html e ts) para cadastro de pontos turisticos
-- [ ] Desenvolvimento da integração com o backend (CRUD) para pontos turisticos
-- [ ] Verificar o readme.md do projeto para entender qual é a relação das tabelas
-> Status: **Em desenvolvimento**
+- [x] Componentes criados: cadastro-pontos-turisticos e pontos-turisticos, responsáveis respectivamente pelo formulário de cadastro e pela listagem dos pontos turísticos.
+- [x] Interfaces implementadas: PontoTuristico e NovoPontoTuristico, definindo a estrutura dos dados utilizados no front-end.
+- [x] Lógica funcional aplicada: HTML e TypeScript para exibição da lista de pontos turísticos, com estrutura responsiva e navegação integrada.
+- [x] Refatoração de rotas: ajustes na configuração de rotas para garantir organização e fluidez na navegação entre os módulos.
+- [x] Formulário de cadastro funcional: implementação completa do layout e lógica de cadastro, incluindo validações, integração com FormGroup, uso de po-select com enums e dados dinâmicos.
+- [ ] Integração com o back-end (CRUD): endpoints ainda serão conectados para persistência e edição dos dados.
+- [ ] Análise do README.md: verificar a estrutura das tabelas e relações para garantir consistência entre front e back.
+> Status: **Em desenvolvimento front-end estruturado e pronto para testes com o back-end.**
 
 #### 3. Comentários
 - [x] Componentes criados: cadastro-comentario e comentarios.
