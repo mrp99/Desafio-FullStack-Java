@@ -107,4 +107,42 @@ A aplicação possui três módulos principais, cada um com estrutura de compone
 - [ ] Verificar o readme.md do projeto para entender qual é a relação das tabelas.
 > Status: **Aguardando implementação da lógica**
 
+### BACKEND
+
+#### Domain:
+
+# Pais: 
+Representa um país cadastrado no sistema, contendo informações básicas e servindo como referência para os pontos turísticos associados.
+- Campos principais: id, nome, sigla, continente, ddi
+- Relacionamento: @OneToMany com PontoTuristico
+- Validações: @NotBlank e @Min para garantir integridade dos dados
+- Construtor baseado em DTO para facilitar integração com a camada de serviço
+
+# PontoTuristico:
+Representa um local turístico vinculado a um país, com informações detalhadas sobre sua localização e época ideal de visita.
+- Campos principais: id, nome, cidade, resumo, melhorEstacao, pais
+- Enum Estacoes: define a melhor estação do ano para visitar o ponto turistico.
+- Relacionamentos:
+  - @ManyToOne com Pais
+  - @OneToMany com Comentario
+- Validações: @NotBlank e @Enumerated(EnumType.STRING)
+- Método utilitário adicionarComentario() para manter vínculo bidirecional
+
+# Comentario:
+Representa uma avaliação ou observação feita por usuários sobre um ponto turístico.
+- Campos principais: id, mensagem, autor, dataCriacao, pontoTuristico
+- Relacionamento: @ManyToOne com PontoTuristico
+- Validação: @NotBlank no campo mensagem
+- dataCriacao preenchido automaticamente com LocalDateTime.now()
+> Status: **finalizado** 
+
+#### Repository:
+Os repositórios são interfaces responsáveis por acessar e manipular os dados persistidos no banco, utilizando Spring Data JPA.
+Cada entidade principal (Pais, PontoTuristico, Comentario) possui seu respectivo repositório estendendo JpaRepository, o que garante 
+acesso a métodos prontos como findAll(), findById(), save(), deleteById(), entre outros.
+- Integração automática com o contexto do Spring Boot
+- Facilidade para criar consultas personalizadas com @Query ou métodos derivados
+- Suporte a paginação, ordenação e filtro.
+> Status: **finalizado** 
+
 

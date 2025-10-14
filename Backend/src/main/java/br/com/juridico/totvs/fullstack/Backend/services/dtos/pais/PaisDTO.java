@@ -1,6 +1,6 @@
-package br.com.juridico.totvs.fullstack.Backend.service.dto;
+package br.com.juridico.totvs.fullstack.Backend.services.dtos.pais;
 
-import br.com.juridico.totvs.fullstack.Backend.domain.Pais;
+import br.com.juridico.totvs.fullstack.Backend.domains.Pais;
 
 public class PaisDTO {
     private Long id;

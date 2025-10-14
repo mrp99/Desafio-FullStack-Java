@@ -1,8 +1,8 @@
-package br.com.juridico.totvs.fullstack.Backend.service;
+package br.com.juridico.totvs.fullstack.Backend.services;
 
-import br.com.juridico.totvs.fullstack.Backend.domain.Pais;
-import br.com.juridico.totvs.fullstack.Backend.service.dto.PaisCreateUpdateDTO;
-import br.com.juridico.totvs.fullstack.Backend.service.dto.PaisDTO;
+import br.com.juridico.totvs.fullstack.Backend.domains.Pais;
+import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisCreateUpdateDTO;
+import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class PaisServiceImpl implements PaisService {

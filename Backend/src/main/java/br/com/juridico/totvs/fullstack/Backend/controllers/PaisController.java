@@ -1,10 +1,8 @@
-package br.com.juridico.totvs.fullstack.Backend.controller;
+package br.com.juridico.totvs.fullstack.Backend.controllers;
 
-import br.com.juridico.totvs.fullstack.Backend.domain.Pais;
-import br.com.juridico.totvs.fullstack.Backend.service.PaisService;
-import br.com.juridico.totvs.fullstack.Backend.service.PaisServiceImpl;
-import br.com.juridico.totvs.fullstack.Backend.service.dto.PaisCreateUpdateDTO;
-import br.com.juridico.totvs.fullstack.Backend.service.dto.PaisDTO;
+import br.com.juridico.totvs.fullstack.Backend.services.PaisService;
+import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisCreateUpdateDTO;
+import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

@@ -13,7 +13,22 @@ repositories {
 }
 
 dependencies {
+	// Spring Boot Web para criar APIs REST
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Spring Boot Starter para funcionalidades básicas
+	implementation 'org.springframework.boot:spring-boot-starter'
+
+	// Spring Data JPA (persistência)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Swagger para Spring Boot 2.x
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+
+	// Banco H2 em memória
+	runtimeOnly 'com.h2database:h2'
+
+	// Testes
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

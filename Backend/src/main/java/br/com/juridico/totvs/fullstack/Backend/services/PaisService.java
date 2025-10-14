@@ -1,8 +1,8 @@
-package br.com.juridico.totvs.fullstack.Backend.service;
+package br.com.juridico.totvs.fullstack.Backend.services;
 
-import br.com.juridico.totvs.fullstack.Backend.domain.Pais;
-import br.com.juridico.totvs.fullstack.Backend.service.dto.PaisCreateUpdateDTO;
-import br.com.juridico.totvs.fullstack.Backend.service.dto.PaisDTO;
+import br.com.juridico.totvs.fullstack.Backend.domains.Pais;
+import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisCreateUpdateDTO;
+import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
