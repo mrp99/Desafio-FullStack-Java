@@ -6,6 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PontoTuristicoRepository extends JpaRepository<PontoTuristico, Long> {
-
     List<PontoTuristico> findByPaisId(Long paisId);
 }

@@ -1,6 +1,6 @@
 package br.com.juridico.totvs.fullstack.Backend.controllers;
 
-import br.com.juridico.totvs.fullstack.Backend.services.PaisService;
+import br.com.juridico.totvs.fullstack.Backend.services.interfaces.PaisService;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisCreateUpdateDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisDTO;
 import org.springframework.http.HttpStatus;

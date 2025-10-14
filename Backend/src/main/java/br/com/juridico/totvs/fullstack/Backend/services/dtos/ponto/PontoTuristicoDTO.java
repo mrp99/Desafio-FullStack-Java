@@ -11,26 +11,35 @@ import java.util.stream.Collectors;
 public class PontoTuristicoDTO {
 
     private Long id;
+
+    // Entrada (POST/PUT)
     private String nome;
     private String cidade;
     private String resumo;
     private Estacoes melhorEstacao;
+    private Long paisId;
 
+    // Saída (GET)
     private PaisDTO pais;
     private List<ComentarioDTO> comentarios;
 
+    public PontoTuristicoDTO() {}
+
+    // Construtor para resposta (GET)
     public PontoTuristicoDTO(PontoTuristico pt) {
         this.id = pt.getId();
         this.nome = pt.getNome();
         this.cidade = pt.getCidade();
         this.resumo = pt.getResumo();
         this.melhorEstacao = pt.getMelhorEstacao();
+        this.paisId = pt.getPais().getId();
         this.pais = new PaisDTO(pt.getPais());
         this.comentarios = pt.getComentarios().stream()
                 .map(ComentarioDTO::new)
                 .collect(Collectors.toList());
     }
 
+    //Getters e Setters
     public Long getId() {
         return id;
     }
@@ -71,6 +80,14 @@ public class PontoTuristicoDTO {
         this.melhorEstacao = melhorEstacao;
     }
 
+    public Long getPaisId() {
+        return paisId;
+    }
+
+    public void setPaisId(Long paisId) {
+        this.paisId = paisId;
+    }
+
     public PaisDTO getPais() {
         return pais;
     }
@@ -86,5 +103,4 @@ public class PontoTuristicoDTO {
     public void setComentarios(List<ComentarioDTO> comentarios) {
         this.comentarios = comentarios;
     }
-
 }

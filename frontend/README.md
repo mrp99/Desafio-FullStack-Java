@@ -136,7 +136,7 @@ Representa uma avaliação ou observação feita por usuários sobre um ponto tu
 - dataCriacao preenchido automaticamente com LocalDateTime.now()
 > Status: **finalizado** 
 
-#### Repository:
+# Repository:
 Os repositórios são interfaces responsáveis por acessar e manipular os dados persistidos no banco, utilizando Spring Data JPA.
 Cada entidade principal (Pais, PontoTuristico, Comentario) possui seu respectivo repositório estendendo JpaRepository, o que garante 
 acesso a métodos prontos como findAll(), findById(), save(), deleteById(), entre outros.
@@ -145,4 +145,45 @@ acesso a métodos prontos como findAll(), findById(), save(), deleteById(), entr
 - Suporte a paginação, ordenação e filtro.
 > Status: **finalizado** 
 
+# DTOs (Data Transfer Objects):
+Os DTOs são usados para transportar dados entre as camadas da aplicação, especialmente entre os controllers e os services, sem expor diretamente as entidades JPA.
+- Evitam o acoplamento direto entre entidades e a camada de apresentação
+- Permitem aplicar validações específicas para entrada de dados
+- Facilitam o mapeamento e transformação de dados recebidos via API
+> Status: **finalizado** 
 
+# Camada de Serviços (services):
+A camada de serviços é responsável por implementar a lógica de negócio da aplicação. Ela atua como intermediária 
+entre os controllers (camada de entrada) e os repositórios (camada de persistência).
+
+services/
+├── interfaces/
+│   ├── PaisService.java
+│   ├── PontoTuristicoService.java
+│   └── ComentarioService.java
+├── impl/
+│   ├── PaisServiceImpl.java
+│   ├── PontoTuristicoServiceImpl.java
+│   └── ComentarioServiceImpl.java
+
+- Interfaces de serviço definem os contratos de cada funcionalidade (CRUD + buscas específicas)
+
+- Implementações (Impl) executam a lógica de negócio:
+  - Validação de entidades relacionadas (ex: paisId, pontoTuristicoId)
+  - Conversão entre entidades e DTOs
+  - Chamada aos repositórios para persistência e consulta
+
+# Funcionalidades por entidade:
+
+PaisService:
+- Criar, atualizar, buscar, listar e deletar países
+- Buscar países por continente.
+
+PontoTuristicoService:
+- Criar e atualizar pontos turísticos vinculados a um país
+- Buscar por ID, listar todos ou filtrar por país.
+
+ComentarioService:
+- Criar e atualizar comentários vinculados a um ponto turístico.
+- Buscar por ID, listar todos ou filtrar por ponto turístic
+> Status: **finalizado** 

@@ -1,11 +1,22 @@
 package br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto;
 
+import br.com.juridico.totvs.fullstack.Backend.domains.enums.Estacoes;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class PontoTuristicoCreateUpdateDTO {
 
+    @NotBlank(message = "O nome do ponto turístico é obrigatório")
     private String nome;
+
     private String cidade;
     private String resumo;
-    private String melhorEstacao;
+
+    @NotNull(message = "A estação ideal é obrigatória")
+    private Estacoes melhorEstacao;
+
+    @NotNull(message = "O país é obrigatório")
     private Long paisId;
 
     public PontoTuristicoCreateUpdateDTO() {}
@@ -34,11 +45,11 @@ public class PontoTuristicoCreateUpdateDTO {
         this.resumo = resumo;
     }
 
-    public String getMelhorEstacao() {
+    public Estacoes getMelhorEstacao() {
         return melhorEstacao;
     }
 
-    public void setMelhorEstacao(String melhorEstacao) {
+    public void setMelhorEstacao(Estacoes melhorEstacao) {
         this.melhorEstacao = melhorEstacao;
     }
 

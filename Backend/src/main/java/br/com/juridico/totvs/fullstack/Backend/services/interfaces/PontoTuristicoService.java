@@ -1,4 +1,4 @@
-package br.com.juridico.totvs.fullstack.Backend.services;
+package br.com.juridico.totvs.fullstack.Backend.services.interfaces;
 
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto.PontoTuristicoCreateUpdateDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto.PontoTuristicoDTO;
