@@ -1,6 +1,9 @@
 package br.com.juridico.totvs.fullstack.Backend.domains;
 
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -13,25 +16,29 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = true)
     private String autor;
 
     @NotBlank(message = "O comentário não pode estar vazio")
     @Column(nullable = false)
     private String mensagem;
 
-    private LocalDateTime dataCriacao = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime dataCriacao;
+
+    @UpdateTimestamp
+    private LocalDateTime dataAtualizacao;
 
     @ManyToOne
     @JoinColumn(name = "ponto_turistico_id", nullable = false)
     private PontoTuristico pontoTuristico;
 
-
     public Comentario() {}
 
-    public Comentario(String autor, String mensagem, LocalDateTime dataCriacao, PontoTuristico pontoTuristico) {
+    public Comentario(String autor, String mensagem, PontoTuristico pontoTuristico) {
         this.autor = autor;
         this.mensagem = mensagem;
-        this.dataCriacao = dataCriacao;
         this.pontoTuristico = pontoTuristico;
     }
 
@@ -63,8 +70,8 @@ public class Comentario {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
+    public LocalDateTime getDataAtualizacao() {
+        return dataAtualizacao;
     }
 
     public PontoTuristico getPontoTuristico() {

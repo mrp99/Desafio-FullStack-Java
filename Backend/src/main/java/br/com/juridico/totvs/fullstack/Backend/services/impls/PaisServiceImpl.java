@@ -4,6 +4,7 @@ import br.com.juridico.totvs.fullstack.Backend.domains.Pais;
 import br.com.juridico.totvs.fullstack.Backend.repositories.PaisRepository;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisCreateUpdateDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.pais.PaisDTO;
+import br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto.PontoTuristicoDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.interfaces.PaisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class PaisServiceImpl implements PaisService {
     }
 
     @Override
-    public PaisDTO getPaisbyId(Long id) {
+    public PaisDTO getPaisById(Long id) {
         Pais pais = paisRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("País não encontrado"));
         return new PaisDTO(pais);
@@ -66,9 +67,20 @@ public class PaisServiceImpl implements PaisService {
     }
 
     @Override
-    public List<PaisDTO> getAllPais() {
+    public List<PaisDTO> getAll() {
         return paisRepository.findAll().stream()
                 .map(PaisDTO::new)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PontoTuristicoDTO> getPontosTuristicos(Long id) {
+        Pais pais = paisRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("País não encontrado"));
+
+        return pais.getPontosTuristicos().stream()
+                .map(PontoTuristicoDTO::new)
+                .collect(Collectors.toList());
+    }
+
 }

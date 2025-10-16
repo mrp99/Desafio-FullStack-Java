@@ -10,6 +10,6 @@ public interface ComentarioService {
     ComentarioDTO update(Long id, ComentarioCreateUpdateDTO dto);
     void delete(Long id);
     ComentarioDTO getComentarioById(Long id);
-    List<ComentarioDTO> getComentariosByPontoTuristico(Long pontoTuristicoId);
+    List<ComentarioDTO> getComentariosByPontoTuristico(Long pontoId);
     List<ComentarioDTO> getAllComentarios();
 }

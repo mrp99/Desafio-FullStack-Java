@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public class ComentarioCreateUpdateDTO {
 
+    @NotBlank(message = "O autor do comentário é obrigatório")
     private String autor;
 
     @NotBlank(message = "A mensagem do comentário é obrigatória")
@@ -13,8 +14,6 @@ public class ComentarioCreateUpdateDTO {
 
     @NotNull(message = "O ponto turístico é obrigatório")
     private Long pontoTuristicoId;
-
-    private LocalDateTime dataCriacao;
 
     public ComentarioCreateUpdateDTO() {}
 
@@ -40,13 +39,5 @@ public class ComentarioCreateUpdateDTO {
 
     public void setPontoTuristicoId(Long pontoTuristicoId) {
         this.pontoTuristicoId = pontoTuristicoId;
-    }
-
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
     }
 }

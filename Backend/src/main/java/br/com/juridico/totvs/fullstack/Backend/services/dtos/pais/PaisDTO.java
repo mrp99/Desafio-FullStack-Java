@@ -23,7 +23,7 @@ public class PaisDTO {
 
     public PaisDTO() {}
 
-    public PaisDTO(Long id, String nome, String sigla, String continente, int ddd){
+    public PaisDTO(Long id, String nome, String sigla, String continente, int ddi){
         this.id = id;
         this.nome = nome;
         this.sigla = sigla;

@@ -47,7 +47,7 @@ public class PaisCreateUpdateDTO {
         return ddi;
     }
 
-    public void setDdd(int ddi) {
+    public void setDdi(int ddi) {
         this.ddi = ddi;
     }
 }

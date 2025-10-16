@@ -61,6 +61,29 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
     }
 
     @Override
+    public PontoTuristicoDTO getPontoTuristicoById(Long id) {
+        PontoTuristico ponto = pontoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));
+        return new PontoTuristicoDTO(ponto);
+    }
+
+    @Override
+    public List<PontoTuristicoDTO> getPontoTuristicoByPais(Long paisId) {
+        List<PontoTuristico> pontos = pontoRepository.findByPaisId(paisId);
+        return pontos.stream()
+                .map(PontoTuristicoDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PontoTuristicoDTO> getAllPontoTuristico() {
+        List<PontoTuristico> pontos = pontoRepository.findAll();
+        return pontos.stream()
+                .map(PontoTuristicoDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PontoTuristicoDTO getById(Long id) {
         PontoTuristico ponto = pontoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));

@@ -187,3 +187,49 @@ ComentarioService:
 - Criar e atualizar comentários vinculados a um ponto turístico.
 - Buscar por ID, listar todos ou filtrar por ponto turístic
 > Status: **finalizado** 
+ 
+# Controller - camada de apresentação:
+Os controllers são responsáveis por expor os endpoints da API REST, recebendo requisições 
+HTTP e delegando a lógica para a camada de serviço. Cada controller está vinculado a uma 
+entidade principal e segue os padrões RESTful.
+ 
+- PaisController
+  Gerencia operações relacionadas aos países cadastrados no sistema.
+  Endpoints disponíveis:
+  - POST /pais: cria um novo país
+  - PUT /pais/{id}: atualiza um país existente
+  - DELETE /pais/{id}: exclui um país pelo ID
+  - GET /pais/{id}: busca país por ID
+  - GET /pais: lista todos os países
+  - GET /pais/continente/{nome}: lista países por continente
+  - GET /pais/{id}/pontos-turisticos: lista pontos turísticos 
+  vinculados ao país - falta testar()
+  - Validações aplicadas: via DTO (@NotBlank, @Min)
+  - Status HTTP utilizados: 201 Created, 200 OK, 204 No Content
+> Status: **finalizado**
+
+- PontoTuristicoController
+  Gerencia os pontos turísticos vinculados aos países.
+  Endpoints disponíveis:
+  - POST /ponto-turistico: cria um novo ponto turístico
+  - PUT /ponto-turistico/{id}: atualiza ponto turístico
+  - GET /ponto-turistico/{id}: busca ponto turístico por ID
+  - GET /ponto-turistico: lista todos os pontos turísticos
+  - GET /ponto-turistico/pais/{id}: lista pontos turísticos de um país
+  - Validações aplicadas: via DTO (@NotBlank, @Enumerated)
+  - Relacionamento: cada ponto turístico está vinculado a um país
+> Status: **Inicializar teste no Postman**
+
+- ComentarioController
+  Gerencia os comentários feitos sobre pontos turísticos.
+  Endpoints disponíveis:
+  - POST /comentario: cria um novo comentário
+  - PUT /comentario/{id}: atualiza comentário
+  - GET /comentario/{id}: busca comentário por ID
+  - GET /comentario: lista todos os comentários
+  - GET /comentario/ponto-turistico/{id}: lista comentários de um ponto turístico
+  - Validações aplicadas: via DTO (@NotBlank)
+  - Campo especial: dataCriacao preenchido automaticamente com LocalDateTime.now()
+> Status: **Inicializar teste no Postman**
+
+

@@ -12,18 +12,18 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   get(url: string): Observable<any> {
-    return this.http.get(`${this.urlApi}/${url}`);
+    return this.http.get(`${this.urlApi}/${url.trim()}`);
   }
 
   post(url: string, body: any): Observable<any> {
-    return this.http.post(`${this.urlApi}/${url}`, body);
+    return this.http.post(`${this.urlApi}/${url.trim()}`, body);
   }
 
   put(url: string, body: any): Observable<any> {
-    return this.http.put(`${this.urlApi}/${url}`, body);
+    return this.http.put(`${this.urlApi}/${url.trim()}`, body);
   }
 
   delete(url: string): Observable<any> {
-    return this.http.delete(`${this.urlApi}/${url}`);
+    return this.http.delete(`${this.urlApi}/${url.trim()}`);
   }
 }

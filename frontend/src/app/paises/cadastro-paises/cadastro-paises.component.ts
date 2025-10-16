@@ -34,7 +34,7 @@ export class CadastroPaisesComponent implements OnInit {
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
-    this.idPais = idParam ? Number(idParam) : null;
+    this.idPais = idParam ? Number(idParam.trim()) : null;
 
 
     if (this.idPais !== null) {

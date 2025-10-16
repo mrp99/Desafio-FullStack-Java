@@ -8,10 +8,12 @@ import br.com.juridico.totvs.fullstack.Backend.services.dtos.comentario.Comentar
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.comentario.ComentarioDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.interfaces.ComentarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ComentarioServiceImpl implements ComentarioService {
 
     @Autowired
@@ -26,14 +28,14 @@ public class ComentarioServiceImpl implements ComentarioService {
         PontoTuristico ponto = pontoTuristicoRepository.findById(dto.getPontoTuristicoId())
                 .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));
 
-        Comentario comentario = new Comentario();
-        comentario.setMensagem(dto.getMensagem());
-        comentario.setAutor(dto.getAutor());
-        comentario.setDataCriacao(dto.getDataCriacao());
-        comentario.setPontoTuristico(ponto);
+        Comentario comentario = new Comentario(
+                dto.getAutor(),
+                dto.getMensagem(),
+                ponto
+        );
 
-        Comentario saved = comentarioRepository.save(comentario);
-        return new ComentarioDTO(saved);
+        comentarioRepository.save(comentario);
+        return new ComentarioDTO(comentario);
     }
 
     @Override
@@ -41,16 +43,16 @@ public class ComentarioServiceImpl implements ComentarioService {
         Comentario comentario = comentarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comentário não encontrado"));
 
+        comentario.setAutor(dto.getAutor());
+        comentario.setMensagem(dto.getMensagem());
+
         PontoTuristico ponto = pontoTuristicoRepository.findById(dto.getPontoTuristicoId())
                 .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));
 
-        comentario.setMensagem(dto.getMensagem());
-        comentario.setAutor(dto.getAutor());
-        comentario.setDataCriacao(dto.getDataCriacao());
         comentario.setPontoTuristico(ponto);
 
-        Comentario updated = comentarioRepository.save(comentario);
-        return new ComentarioDTO(updated);
+        comentarioRepository.save(comentario);
+        return new ComentarioDTO(comentario);
     }
 
     @Override
