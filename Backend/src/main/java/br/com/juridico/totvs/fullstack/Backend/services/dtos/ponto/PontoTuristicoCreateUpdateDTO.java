@@ -10,7 +10,10 @@ public class PontoTuristicoCreateUpdateDTO {
     @NotBlank(message = "O nome do ponto turístico é obrigatório")
     private String nome;
 
+    @NotBlank(message = "A cidade é obrigatória")
     private String cidade;
+
+    @NotBlank(message = "O resumo é obrigatório")
     private String resumo;
 
     @NotNull(message = "A estação ideal é obrigatória")

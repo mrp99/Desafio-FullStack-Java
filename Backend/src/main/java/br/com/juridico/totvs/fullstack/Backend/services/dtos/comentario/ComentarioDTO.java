@@ -2,6 +2,7 @@ package br.com.juridico.totvs.fullstack.Backend.services.dtos.comentario;
 
 import br.com.juridico.totvs.fullstack.Backend.domains.Comentario;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class ComentarioDTO {
@@ -10,7 +11,11 @@ public class ComentarioDTO {
     private String mensagem;
     private String autor;
     private Long pontoTuristicoId;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataCriacao;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataAtualizacao;
 
     public ComentarioDTO() {}

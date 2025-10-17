@@ -8,7 +8,9 @@ import br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto.PontoTuristic
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto.PontoTuristicoDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.interfaces.PontoTuristicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,29 +28,37 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
     @Override
     public PontoTuristicoDTO create(PontoTuristicoCreateUpdateDTO dto) {
         Pais pais = paisRepository.findById(dto.getPaisId())
-                .orElseThrow(() -> new RuntimeException("País não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,"País não encontrado")
+                );
 
         PontoTuristico ponto = new PontoTuristico();
         ponto.setNome(dto.getNome());
+        ponto.setCidade(dto.getCidade());
         ponto.setResumo(dto.getResumo());
+        ponto.setMelhorEstacao(dto.getMelhorEstacao());
         ponto.setPais(pais);
 
         PontoTuristico saved = pontoRepository.save(ponto);
         return new PontoTuristicoDTO(saved);
-
     }
 
     @Override
     public PontoTuristicoDTO update(Long id, PontoTuristicoCreateUpdateDTO dto) {
-
         PontoTuristico ponto = pontoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,"Ponto turístico não encontrado")
+                );
 
         Pais pais = paisRepository.findById(dto.getPaisId())
-                .orElseThrow(() -> new RuntimeException("País não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,"País não encontrado")
+                );
 
         ponto.setNome(dto.getNome());
+        ponto.setCidade(dto.getCidade());
         ponto.setResumo(dto.getResumo());
+        ponto.setMelhorEstacao(dto.getMelhorEstacao());
         ponto.setPais(pais);
 
         PontoTuristico updated = pontoRepository.save(ponto);
@@ -61,39 +71,19 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
     }
 
     @Override
-    public PontoTuristicoDTO getPontoTuristicoById(Long id) {
-        PontoTuristico ponto = pontoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));
-        return new PontoTuristicoDTO(ponto);
-    }
-
-    @Override
-    public List<PontoTuristicoDTO> getPontoTuristicoByPais(Long paisId) {
-        List<PontoTuristico> pontos = pontoRepository.findByPaisId(paisId);
-        return pontos.stream()
-                .map(PontoTuristicoDTO::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PontoTuristicoDTO> getAllPontoTuristico() {
-        List<PontoTuristico> pontos = pontoRepository.findAll();
-        return pontos.stream()
-                .map(PontoTuristicoDTO::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public PontoTuristicoDTO getById(Long id) {
         PontoTuristico ponto = pontoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,"Ponto turístico não encontrado")
+                );
         return new PontoTuristicoDTO(ponto);
     }
 
     @Override
     public List<PontoTuristicoDTO> getByPais(Long paisId) {
         List<PontoTuristico> pontos = pontoRepository.findByPaisId(paisId);
-        return pontos.stream().map(PontoTuristicoDTO::new).collect(Collectors.toList());
+        return pontos.stream().map(PontoTuristicoDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override

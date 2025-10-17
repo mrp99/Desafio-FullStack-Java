@@ -10,9 +10,6 @@ public interface PontoTuristicoService {
     PontoTuristicoDTO update(Long id, PontoTuristicoCreateUpdateDTO dto);
     void delete(Long id);
     PontoTuristicoDTO getById(Long id);
-    PontoTuristicoDTO getPontoTuristicoById(Long id);
-    List<PontoTuristicoDTO> getPontoTuristicoByPais(Long paisId);
-    List<PontoTuristicoDTO> getAllPontoTuristico();
     List<PontoTuristicoDTO> getByPais(Long paisId);
     List<PontoTuristicoDTO> getAll();
 }

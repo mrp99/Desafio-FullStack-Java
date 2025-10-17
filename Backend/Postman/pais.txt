@@ -1,0 +1,225 @@
+PaisController — Métodos REST
+
+Método         | Rota                                      | Descrição
+---------------|-------------------------------------------|-------------------------------------------------------------
+create         | POST /pais                                | Cria um novo país com os dados enviados via DTO
+update         | PUT /pais/{id}                            | Atualiza os dados de um país existente pelo ID
+delete         | DELETE /pais/{id}                         | Remove um país do sistema pelo ID
+getById        | GET /pais/{id}                            | Retorna os dados de um país específico pelo ID
+getAll         | GET /pais                                 | Lista todos os países cadastrados
+getByContinente| GET /pais/continente/{nome}               | Lista países filtrados por nome do continente
+getPontosTuristicos | GET /pais/{id}/pontos-turisticos     | Lista os pontos turísticos vinculados ao país
+
+Observações:
+- Todos os métodos usam DTOs para entrada e saída de dados
+- Validações aplicadas via @NotBlank, @Min nos DTOs
+- Status HTTP utilizados: 201 Created, 200 OK, 204 No Content
+- O método getPontosTuristicos depende de haver pontos turísticos vinculados ao país
+
+===========================
+🧪 Testes de PaisController
+===========================
+
+🔹 POST - Criar país:
+URL: http://localhost:8080/pais
+
+Body:
+{
+  "nome": "Argentina",
+  "sigla": "AR",
+  "continente": "América do Sul",
+  "ddi": 54
+}
+
+Resposta:
+201 Created
+{
+  "id": 1,
+  "nome": "Argentina",
+  "sigla": "AR",
+  "continente": "América do Sul",
+  "ddi": 54
+}
+
+Body:
+{
+  "nome": "Brasil",
+  "sigla": "BR",
+  "continente": "América do Sul",
+  "ddi": 55
+}
+
+Resposta:
+201 Created
+{
+  "id": 2,
+  "nome": "Brasil",
+  "sigla": "BR",
+  "continente": "América do Sul",
+  "ddi": 55
+}
+
+🔹 GET - Listar todos os países
+URL: http://localhost:8080/pais
+
+Resposta:
+200 OK
+[
+  {
+    "id": 1,
+    "nome": "Argentina",
+    "sigla": "AR",
+    "continente": "América do Sul",
+    "ddi": 54
+  },
+  {
+    "id": 2,
+    "nome": "Brasil",
+    "sigla": "BR",
+    "continente": "América do Sul",
+    "ddi": 55
+  }
+]
+
+🔹 GET - Buscar país por ID
+URL: http://localhost:8080/pais/1
+
+Resposta:
+200 OK
+{
+  "id": 1,
+  "nome": "Argentina",
+  "sigla": "AR",
+  "continente": "América do Sul",
+  "ddi": 54
+}
+
+URL: http://localhost:8080/pais/2
+
+Resposta:
+200 OK
+{
+  "id": 2,
+  "nome": "Brasil",
+  "sigla": "BR",
+  "continente": "América do Sul",
+  "ddi": 55
+}
+
+🔹 GET - Buscar países por continente
+URL: http://localhost:8080/pais/continente/América do Sul
+
+Resposta:
+200 OK
+[
+  {
+    "id": 1,
+    "nome": "Argentina",
+    "sigla": "AR",
+    "continente": "América do Sul",
+    "ddi": 54
+  },
+  {
+    "id": 2,
+    "nome": "Brasil",
+    "sigla": "BR",
+    "continente": "América do Sul",
+    "ddi": 55
+  }
+]
+
+🔹 PUT - Atualizar país por ID
+URL: http://localhost:8080/pais/2
+
+Body:
+{
+  "nome": "Brasil Atualizado",
+  "sigla": "BR",
+  "continente": "América Central",
+  "ddi": 55
+}
+
+Resposta:
+200 OK
+{
+  "id": 2,
+  "nome": "Brasil Atualizado",
+  "sigla": "BR",
+  "continente": "América Central",
+  "ddi": 55
+}
+
+🔹 GET - Verificar atualização por continente
+URL: http://localhost:8080/pais/continente/América do Sul
+
+Resposta:
+200 OK
+[
+  {
+    "id": 1,
+    "nome": "Argentina",
+    "sigla": "AR",
+    "continente": "América do Sul",
+    "ddi": 54
+  }
+]
+
+URL: http://localhost:8080/pais/continente/América Central
+
+Resposta:
+200 OK
+[
+  {
+    "id": 2,
+    "nome": "Brasil Atualizado",
+    "sigla": "BR",
+    "continente": "América Central",
+    "ddi": 55
+  }
+]
+
+🔹 DELETE - Remover país por ID
+URL: http://localhost:8080/pais/1
+
+Resposta:
+204 No Content
+
+
+ GET /pais/1/pontos-turisticos
+📍 Objetivo do teste:
+Verificar se o país com id = 1 retorna corretamente os pontos turísticos vinculados a ele.
+📦 Requisição:
+GET http://localhost:8080/pais/1/pontos-turisticos
+
+
+✅ Resposta esperada:
+[
+  {
+    "id": 1,
+    "nome": "Cataratas do Iguaçu",
+    "cidade": "Foz do Iguaçu",
+    "resumo": "Uma das maiores quedas d'água do mundo",
+    "melhorEstacao": "VERAO",
+    "paisId": 1,
+    "pais": {
+      "id": 1,
+      "nome": "Brasil",
+      "sigla": "BR",
+      "continente": "América do Sul",
+      "ddi": 55
+    },
+    "comentarios": []
+  }
+]
+
+🔸 Validação:
+- Confirma que o vínculo entre país e ponto turístico está funcionando
+- Garante que o DTO está retornando os dados completos
+- Permite que o frontend filtre pontos turísticos por país
+
+
+🔸 Observação:
+Melhoria futura: deixar busca por continente mais dinâmica (ex: case-insensitive, autocomplete, etc.)
+
+🔸 Observação:
+Testar o método `GET /pais/{id}/pontos-turisticos` para listar pontos turísticos vinculados ao país.

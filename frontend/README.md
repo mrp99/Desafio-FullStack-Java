@@ -218,7 +218,7 @@ entidade principal e segue os padrões RESTful.
   - GET /ponto-turistico/pais/{id}: lista pontos turísticos de um país
   - Validações aplicadas: via DTO (@NotBlank, @Enumerated)
   - Relacionamento: cada ponto turístico está vinculado a um país
-> Status: **Inicializar teste no Postman**
+> Status: **finalizado**
 
 - ComentarioController
   Gerencia os comentários feitos sobre pontos turísticos.
@@ -232,4 +232,49 @@ entidade principal e segue os padrões RESTful.
   - Campo especial: dataCriacao preenchido automaticamente com LocalDateTime.now()
 > Status: **Inicializar teste no Postman**
 
+Testes Realizados
+Durante o desenvolvimento e validação do projeto, foram realizados os seguintes testes manuais para garantir o correto funcionamento do fluxo de criação e atualização das entidades:
+✅ Fluxo de Criação Completo
+- Criação de País
+- Testado com diferentes continentes, siglas e DDIs.
+- Verificado retorno com 201 Created e ID gerado corretamente.
+- Criação de Ponto Turístico
+- Associado a um país previamente criado.
+- Testado com diferentes estações (VERAO, INVERNO, etc.).
+- Verificado vínculo correto com o país via paisId.
+- Criação de Comentário
+- Associado a um ponto turístico existente.
+- Validado que dataCriacao e dataAtualizacao são geradas corretamente no momento da criação.
+
+Parei aqui Teste de Atualização de Comentário
+- Realizado PUT /comentarios/{id} após um intervalo de 5 segundos.
+- Confirmado que:
+- dataAtualizacao foi atualizada com novo horário.
+- dataCriacao permaneceu inalterada.
+- Resultado esperado: diferença visível entre os dois campos, validando o comportamento do @UpdateTimestamp.
+
+Parei aqui Testes de Listagem e Consulta
+- GET /comentarios: listagem geral de todos os comentários.
+- GET /comentarios/{id}: retorno individual com dados completos.
+- GET /comentarios/ponto-turistico/{pontoId}: listagem filtrada por ponto turístico.
+
+Testes de Integração com o Frontend
+Após a conclusão dos testes da API de comentários, foram realizados testes de integração com o frontend para 
+validar a exibição e o vínculo correto entre os dados:
+- Verificado se os pontos turísticos estão sendo listados corretamente na tabela principal.
+- Validado se os comentários vinculados aparecem corretamente ao acessar os detalhes de um ponto turístico.
+- Confirmado que os campos autor, mensagem, dataCriacao e dataAtualizacao estão sendo exibidos conforme esperado.
+
+🛠️ Observações sobre a Interface
+- Foi identificado que, para facilitar a criação de comentários diretamente a partir da visualização de um ponto 
+turístico, pode ser necessário construir um novo formulário ou modal específico.
+- Esse formulário permitiria criar um comentário já com o pontoTuristicoId preenchido automaticamente, garantindo 
+uma experiência mais fluida para o usuário
+
+
+- [ ] Criar país → ponto turístico → comentário
+- [ ] Atualizar comentário e verificar dataAtualizacao
+- [ ] Listar comentários por ponto turístico
+- [ ] Ver exibição no frontend
+- [ ] Criar comentário direto do ponto turístico (se tiver formulário)
 

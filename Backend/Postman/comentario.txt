@@ -1,0 +1,128 @@
+ComentarioController — Métodos REST
+
+Método         | Rota                                       | Descrição
+---------------|--------------------------------------------|-------------------------------------------------------------
+create         | POST /comentarios                          | Cria um novo comentário vinculado a um ponto turístico.
+update         | PUT /comentarios/{id}                      | AAtualiza os dados de um comentário existente pelo ID.
+delete         | DELETE /comentarios/{id}                   | Remove um comentário do sistema pelo ID.
+getById        | GET /comentarios/{id}                      | Retorna os dados de um comentário específico pelo ID.
+getAll         | GET /comentarios                           | Lista todos os comentários cadastrados.
+getByPonto     | GET /comentarios/ponto-turistico/{pontoId} | Lista os comentários vinculados a um ponto turístico.
+
+Fluxo de Criação de Comentário (de acordo com o desafio)
+Para que um comentário seja criado corretamente, é necessário seguir uma ordem lógica de criação das entidades,
+respeitando os vínculos definidos no sistema:
+- Criar um País
+- O país é a base da estrutura. Nenhum ponto turístico pode existir sem estar vinculado a um país.
+
+- Criar um Ponto Turístico vinculado ao País
+- Cada ponto turístico precisa estar associado a um país já existente. Esse vínculo é obrigatório.
+
+- Criar um Comentário vinculado ao Ponto Turístico
+- O comentário só pode ser criado se houver um ponto turístico existente. Ele precisa estar vinculado
+a esse ponto para ser válido.
+
+Esse fluxo garante que os dados estejam organizados de forma hierárquica e que cada comentário tenha
+um contexto geográfico e turístico definido. É exatamente o que o desafio propõe:
+
+País → Ponto Turístico → Comentário
+
+Observações:
+- Todos os métodos usam DTOs para entrada e saída de dados (ComentarioDTO, ComentarioCreateUpdateDTO).
+- Validações aplicadas via @NotBlank, @NotNull, nos DTOs.
+- Status HTTP utilizados: 201 Created, 200 OK, 204 No Content.
+- O campo pontoTuristicoId é obrigatório no DTO de criação/atualização para garantir o vínculo correto.
+- O método getByPonto depende de haver comentários vinculados ao ponto turístico informado.
+
+
+Fluxo de Criação para Comentário (com novo País e novo Ponto Turístico)
+Criar um novo País
+Antes de qualquer coisa, é necessário cadastrar o país onde o ponto turístico está localizado.
+Exemplo:
+
+POST /pais
+{
+  "nome": "Brasil",
+  "sigla": "BR",
+  "continente": "América do Sul",
+  "ddi": 55
+}
+
+resposta: 201 created
+
+{
+    "id": 1,
+    "nome": "Brasil",
+    "sigla": "BR",
+    "continente": "América do Sul",
+    "ddi": 55
+}
+
+Esse país receberá um id gerado automaticamente (ex: id: 1).
+
+Criar um novo Ponto Turístico vinculado ao País
+Com o país criado, agora podemos cadastrar um ponto turístico que pertença a ele.
+Exemplo:
+
+POST /pontos-turisticos
+{
+  "nome": "Cataratas do Iguaçu",
+  "cidade": "Foz do Iguaçu",
+  "resumo": "Uma das maiores quedas d'água do mundo",
+  "melhorEstacao": "VERAO",
+  "paisId": 1
+}
+
+resposta: 201 created
+
+{
+    "id": 1,
+    "nome": "Cataratas do Iguaçu",
+    "cidade": "Foz do Iguaçu",
+    "resumo": "Uma das maiores quedas d'água do mundo",
+    "melhorEstacao": "VERAO",
+    "paisId": 1,
+    "pais": {
+        "id": 1,
+        "nome": "Brasil",
+        "sigla": "BR",
+        "continente": "América do Sul",
+        "ddi": 55
+    },
+    "comentarios": []
+}
+
+O ponto turístico também receberá um id (ex: id: 1).
+
+Criar um Comentário vinculado ao Ponto Turístico
+Agora que temos o ponto turístico, podemos criar um comentário relacionado a ele.
+Exemplo:
+
+POST /comentarios
+{
+  "autor": "Marcel",
+  "mensagem": "Lugar incrível, recomendo muito!",
+  "pontoTuristicoId": 1
+}
+resposta: 201 created
+
+{
+    "id": 1,
+    "mensagem": "Lugar incrível, recomendo muito!",
+    "autor": "Marcel",
+    "pontoTuristicoId": 1,
+    "dataCriacao": "16/10/2025 16:57:51",
+    "dataAtualizacao": "16/10/2025 16:57:51"
+}
+
+✅ Resultado final
+Esse fluxo garante que:
+- O comentário está vinculado a um ponto turístico válido
+- O ponto turístico está vinculado a um país existente
+- A hierarquia do sistema está preservada conforme o desafio.
+
+
+
+
+
+

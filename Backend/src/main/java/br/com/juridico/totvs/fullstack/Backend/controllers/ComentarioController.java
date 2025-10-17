@@ -39,7 +39,6 @@ public class ComentarioController {
         return comentarioService.getComentarioById(id);
     }
 
-    //rever
     @GetMapping("/ponto-turistico/{pontoId}")
     public List<ComentarioDTO> getByPonto(@PathVariable Long pontoId) {
         return comentarioService.getComentariosByPontoTuristico(pontoId);

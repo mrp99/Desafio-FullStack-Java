@@ -19,9 +19,13 @@ public class PontoTuristico {
     @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private String cidade;
+
+    @Column(nullable = false)
     private String resumo;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Estacoes melhorEstacao;
 

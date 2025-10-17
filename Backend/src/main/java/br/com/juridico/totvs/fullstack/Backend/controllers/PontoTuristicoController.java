@@ -36,16 +36,16 @@ public class PontoTuristicoController {
 
     @GetMapping("/{id}")
     public PontoTuristicoDTO getById(@PathVariable Long id) {
-        return pontoService.getPontoTuristicoById(id);
-    }
-
-    @GetMapping("/pais/{paisId}")
-    public List<PontoTuristicoDTO> getByPais(@PathVariable Long paisId) {
-        return pontoService.getPontoTuristicoByPais(paisId);
+        return pontoService.getById(id);
     }
 
     @GetMapping
     public List<PontoTuristicoDTO> getAll() {
-        return pontoService.getAllPontoTuristico();
+        return pontoService.getAll();
+    }
+
+    @GetMapping("/pais/{paisId}")
+    public List<PontoTuristicoDTO> getByPais(@PathVariable Long paisId) {
+        return pontoService.getByPais(paisId);
     }
 }

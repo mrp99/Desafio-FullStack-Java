@@ -1,0 +1,154 @@
+PontoTuristicoController — Métodos REST
+
+Método         | Rota                                      | Descrição
+---------------|-------------------------------------------|-------------------------------------------------------------
+create         | POST /pontos-turisticos                   | Cria um novo ponto turístico com os dados enviados via DTO
+update         | PUT /pontos-turisticos/{id}               | Atualiza os dados de um ponto turístico existente pelo ID
+delete         | DELETE /pontos-turisticos/{id}            | Remove um ponto turístico do sistema pelo ID
+getById        | GET /pontos-turisticos/{id}               | Retorna os dados de um ponto turístico específico pelo ID
+getAll         | GET /pontos-turisticos                    | Lista todos os pontos turísticos cadastrados
+getByPais      | GET /pontos-turisticos/pais/{paisId}      | Lista os pontos turísticos vinculados a um país específico
+
+Observações:
+- Todos os métodos usam DTOs para entrada e saída de dados (PontoTuristicoDTO, PontoTuristicoCreateUpdateDTO)
+- Validações aplicadas via @NotBlank, @NotNull, @Size, @Min nos DTOs
+- Status HTTP utilizados: 201 Created, 200 OK, 204 No Content
+- O método getByPais depende de haver pontos turísticos vinculados ao país informado
+
+============================
+Testes de PontoTuristicoController
+🔹 POST - Criar ponto turístico
+URL: http://localhost:8080/pontos-turisticos
+Body:
+{
+  "nome": "Cristo Redentor",
+  "cidade": "Rio de Janeiro",
+  "resumo": "Estátua icônica com vista panorâmica da cidade",
+  "melhorEstacao": "VERAO",
+  "paisId": 2
+}
+
+Resposta: 201 Created
+{
+  "id": 1,
+  "nome": "Cristo Redentor",
+  "cidade": "Rio de Janeiro",
+  "resumo": "Estátua icônica com vista panorâmica da cidade",
+  "melhorEstacao": "VERAO",
+  "paisId": 2,
+  "pais": {
+    "id": 2,
+    "nome": "Brasil",
+    "sigla": "BR",
+    "continente": "América do Sul",
+    "ddi": 55
+  },
+  "comentarios": []
+}
+
+🔹 GET - Listar todos os pontos turísticos
+URL: http://localhost:8080/pontos-turisticos
+
+Resposta: 200 OK
+[
+  {
+    "id": 1,
+    "nome": "Cristo Redentor",
+    "cidade": "Rio de Janeiro",
+    "resumo": "Estátua icônica com vista panorâmica da cidade",
+    "melhorEstacao": "VERAO",
+    "paisId": 2,
+    "pais": {
+      "id": 2,
+      "nome": "Brasil",
+      "sigla": "BR",
+      "continente": "América do Sul",
+      "ddi": 55
+    },
+    "comentarios": []
+  }
+]
+
+🔹 GET - Buscar ponto turístico por ID
+URL: http://localhost:8080/pontos-turisticos/1
+Resposta: 200 OK
+
+{
+  "id": 1,
+  "nome": "Cristo Redentor",
+  "cidade": "Rio de Janeiro",
+  "resumo": "Estátua icônica com vista panorâmica da cidade",
+  "melhorEstacao": "VERAO",
+  "paisId": 2,
+  "pais": {
+    "id": 2,
+    "nome": "Brasil",
+    "sigla": "BR",
+    "continente": "América do Sul",
+    "ddi": 55
+  },
+  "comentarios": []
+}
+
+🔹 GET - Buscar pontos turísticos por país
+URL: http://localhost:8080/pontos-turisticos/pais/2
+Resposta: 200 OK
+[
+  {
+    "id": 1,
+    "nome": "Cristo Redentor",
+    "cidade": "Rio de Janeiro",
+    "resumo": "Estátua icônica com vista panorâmica da cidade",
+    "melhorEstacao": "VERAO",
+    "paisId": 2,
+    "pais": {
+      "id": 2,
+      "nome": "Brasil",
+      "sigla": "BR",
+      "continente": "América do Sul",
+      "ddi": 55
+    },
+    "comentarios": []
+  }
+]
+
+🔹 PUT - Atualizar ponto turístico por ID
+URL: http://localhost:8080/pontos-turisticos/1
+Body:
+{
+  "nome": "Cristo Redentor - Atualizado",
+  "cidade": "Rio de Janeiro",
+  "resumo": "Atualização: ícone cultural com vista privilegiada",
+  "melhorEstacao": "OUTONO",
+  "paisId": 2
+}
+
+
+Resposta: 200 OK
+{
+  "id": 1,
+  "nome": "Cristo Redentor - Atualizado",
+  "cidade": "Rio de Janeiro",
+  "resumo": "Atualização: ícone cultural com vista privilegiada",
+  "melhorEstacao": "OUTONO",
+  "paisId": 2,
+  "pais": {
+    "id": 2,
+    "nome": "Brasil",
+    "sigla": "BR",
+    "continente": "América do Sul",
+    "ddi": 55
+  },
+  "comentarios": []
+}
+
+🔹 DELETE - Remover ponto turístico por ID
+URL: http://localhost:8080/pontos-turisticos/1
+Resposta:
+204 No Content
+🔸 Observação:
+
+Após o DELETE, o ponto turístico não deve mais aparecer na listagem geral.
+Requisição GET /pontos-turisticos/1 deve retornar 404 Not Found.
+
+
