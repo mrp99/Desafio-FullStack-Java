@@ -230,9 +230,63 @@ entidade principal e segue os padrões RESTful.
   - GET /comentario/ponto-turistico/{id}: lista comentários de um ponto turístico
   - Validações aplicadas: via DTO (@NotBlank)
   - Campo especial: dataCriacao preenchido automaticamente com LocalDateTime.now()
-> Status: **Inicializar teste no Postman**
+> Status: **finalizado**
 
-Testes Realizados
+Exceptions – Camada de tratamento de erros
+A camada de exceptions é responsável por capturar e tratar erros que ocorrem durante a execução da aplicação, 
+garantindo que o cliente receba respostas claras, padronizadas e com o status HTTP adequado. Essa abordagem 
+melhora a experiência de uso da API e facilita o diagnóstico de problemas.
+
+📌 Estrutura da camada
+Ela é composta por:
+- Exceção personalizada (RecursoNaoEncontradoException)
+- Handler global (GlobalExceptionHandler) com três métodos:
+- Para recurso não encontrado
+- Para tipo de argumento inválido
+- Para erros genéricos
+
+🧱 1. RecursoNaoEncontradoException
+- Usada quando um recurso (ex: país, ponto turístico) não é encontrado no banco.
+- Lançada nos services (Impls) com mensagens específicas.
+- Interceptada pelo handler para retornar 404 Not Found.
+
+🧱 2. GlobalExceptionHandler
+Essa classe intercepta exceções lançadas em qualquer parte da aplicação e transforma em 
+respostas HTTP padronizadas.
+
+🔹 Método 1: Recurso não encontrado
+- Retorna 404 Not Found
+- Corpo da resposta inclui:
+- timestamp
+- status
+- erro com a mensagem da exceção
+
+🔹 Método 2: Tipo de argumento inválido
+- Retorna 400 Bad Request
+- Usado quando, por exemplo, o ID passado na URL não é um número
+- Mensagem clara: "ID inválido: valor"
+
+🔹 Método 3: Erro interno genérico
+- Retorna 500 Internal Server Error
+- Captura qualquer erro não tratado
+- Evita que o cliente receba stacktrace ou mensagens técnicas
+
+✅ Benefícios da abordagem
+- Padronização das respostas de erro
+- Separação de responsabilidades: o controller não precisa tratar erros
+- Mensagens claras para o cliente
+- Facilidade de manutenção e testes
+
+### Testes Realizados:
+A pasta postman contém os testes organizados por entidade, simulando chamadas reais aos endpoints 
+da API. Esses testes foram criados para facilitar a validação manual das funcionalidades e garantir
+que os comportamentos esperados estejam funcionando corretamente.
+
+postman/
+├── Pais.txt
+├── PontoTuristico.txt
+└── comentario.txt
+
 Durante o desenvolvimento e validação do projeto, foram realizados os seguintes testes manuais para garantir o correto funcionamento do fluxo de criação e atualização das entidades:
 ✅ Fluxo de Criação Completo
 - Criação de País
@@ -246,17 +300,23 @@ Durante o desenvolvimento e validação do projeto, foram realizados os seguinte
 - Associado a um ponto turístico existente.
 - Validado que dataCriacao e dataAtualizacao são geradas corretamente no momento da criação.
 
-Parei aqui Teste de Atualização de Comentário
+✅ Teste de Atualização de Comentário
 - Realizado PUT /comentarios/{id} após um intervalo de 5 segundos.
 - Confirmado que:
 - dataAtualizacao foi atualizada com novo horário.
 - dataCriacao permaneceu inalterada.
 - Resultado esperado: diferença visível entre os dois campos, validando o comportamento do @UpdateTimestamp.
 
-Parei aqui Testes de Listagem e Consulta
+✅ Testes de Listagem e Consulta
 - GET /comentarios: listagem geral de todos os comentários.
 - GET /comentarios/{id}: retorno individual com dados completos.
 - GET /comentarios/ponto-turistico/{pontoId}: listagem filtrada por ponto turístico.
+
+- [x] Criar país → ponto turístico → comentário
+- [x] Atualizar comentário e verificar dataAtualizacao
+- [x] Listar comentários por ponto turístico
+- [ ] Ver exibição no frontend
+- [ ] Criar comentário direto do ponto turístico.
 
 Testes de Integração com o Frontend
 Após a conclusão dos testes da API de comentários, foram realizados testes de integração com o frontend para 
@@ -265,16 +325,8 @@ validar a exibição e o vínculo correto entre os dados:
 - Validado se os comentários vinculados aparecem corretamente ao acessar os detalhes de um ponto turístico.
 - Confirmado que os campos autor, mensagem, dataCriacao e dataAtualizacao estão sendo exibidos conforme esperado.
 
-🛠️ Observações sobre a Interface
-- Foi identificado que, para facilitar a criação de comentários diretamente a partir da visualização de um ponto 
-turístico, pode ser necessário construir um novo formulário ou modal específico.
-- Esse formulário permitiria criar um comentário já com o pontoTuristicoId preenchido automaticamente, garantindo 
-uma experiência mais fluida para o usuário
 
 
-- [ ] Criar país → ponto turístico → comentário
-- [ ] Atualizar comentário e verificar dataAtualizacao
-- [ ] Listar comentários por ponto turístico
-- [ ] Ver exibição no frontend
-- [ ] Criar comentário direto do ponto turístico (se tiver formulário)
+
+
 

@@ -2,6 +2,7 @@ package br.com.juridico.totvs.fullstack.Backend.services.impls;
 
 import br.com.juridico.totvs.fullstack.Backend.domains.Pais;
 import br.com.juridico.totvs.fullstack.Backend.domains.PontoTuristico;
+import br.com.juridico.totvs.fullstack.Backend.excptions.RecursoNaoEncontradoException;
 import br.com.juridico.totvs.fullstack.Backend.repositories.PaisRepository;
 import br.com.juridico.totvs.fullstack.Backend.repositories.PontoTuristicoRepository;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto.PontoTuristicoCreateUpdateDTO;
@@ -28,8 +29,8 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
     @Override
     public PontoTuristicoDTO create(PontoTuristicoCreateUpdateDTO dto) {
         Pais pais = paisRepository.findById(dto.getPaisId())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,"País não encontrado")
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "País com ID " + dto.getPaisId() + " não encontrado")
                 );
 
         PontoTuristico ponto = new PontoTuristico();
@@ -46,13 +47,17 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
     @Override
     public PontoTuristicoDTO update(Long id, PontoTuristicoCreateUpdateDTO dto) {
         PontoTuristico ponto = pontoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,"Ponto turístico não encontrado")
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Ponto turístico com ID "
+                                + id
+                                + " não encontrado")
                 );
 
         Pais pais = paisRepository.findById(dto.getPaisId())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,"País não encontrado")
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "País com ID "
+                                + dto.getPaisId()
+                                + " não encontrado")
                 );
 
         ponto.setNome(dto.getNome());
@@ -67,20 +72,33 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
 
     @Override
     public void delete(Long id) {
-        pontoRepository.deleteById(id);
+        PontoTuristico ponto = pontoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Ponto turístico com ID "
+                                + id
+                                + " não encontrado"));
+        pontoRepository.delete(ponto);
     }
 
     @Override
     public PontoTuristicoDTO getById(Long id) {
         PontoTuristico ponto = pontoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,"Ponto turístico não encontrado")
-                );
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Ponto turístico com ID "
+                                + id
+                                + " não encontrado"));
         return new PontoTuristicoDTO(ponto);
     }
 
     @Override
     public List<PontoTuristicoDTO> getByPais(Long paisId) {
+        if (!paisRepository.existsById(paisId)) {
+            throw new RecursoNaoEncontradoException(
+                    "País com ID "
+                            + paisId
+                            + " não encontrado");
+        }
+
         List<PontoTuristico> pontos = pontoRepository.findByPaisId(paisId);
         return pontos.stream().map(PontoTuristicoDTO::new)
                 .collect(Collectors.toList());

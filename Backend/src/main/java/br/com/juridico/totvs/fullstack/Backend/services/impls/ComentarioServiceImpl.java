@@ -2,6 +2,7 @@ package br.com.juridico.totvs.fullstack.Backend.services.impls;
 
 import br.com.juridico.totvs.fullstack.Backend.domains.Comentario;
 import br.com.juridico.totvs.fullstack.Backend.domains.PontoTuristico;
+import br.com.juridico.totvs.fullstack.Backend.excptions.RecursoNaoEncontradoException;
 import br.com.juridico.totvs.fullstack.Backend.repositories.ComentarioRepository;
 import br.com.juridico.totvs.fullstack.Backend.repositories.PontoTuristicoRepository;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.comentario.ComentarioCreateUpdateDTO;
@@ -26,7 +27,11 @@ public class ComentarioServiceImpl implements ComentarioService {
     @Override
     public ComentarioDTO create(ComentarioCreateUpdateDTO dto) {
         PontoTuristico ponto = pontoTuristicoRepository.findById(dto.getPontoTuristicoId())
-                .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException
+                        ("Ponto turístico com ID "
+                                + dto.getPontoTuristicoId()
+                                + " não encontrado")
+                );
 
         Comentario comentario = new Comentario(
                 dto.getAutor(),
@@ -41,13 +46,20 @@ public class ComentarioServiceImpl implements ComentarioService {
     @Override
     public ComentarioDTO update(Long id, ComentarioCreateUpdateDTO dto) {
         Comentario comentario = comentarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Comentário não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException
+                        ("Comentário com ID " + id
+                                + " não encontrado")
+                );
 
         comentario.setAutor(dto.getAutor());
         comentario.setMensagem(dto.getMensagem());
 
         PontoTuristico ponto = pontoTuristicoRepository.findById(dto.getPontoTuristicoId())
-                .orElseThrow(() -> new RuntimeException("Ponto turístico não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Ponto turístico com ID "
+                                + dto.getPontoTuristicoId()
+                                + " não encontrado")
+                );
 
         comentario.setPontoTuristico(ponto);
 
@@ -57,18 +69,29 @@ public class ComentarioServiceImpl implements ComentarioService {
 
     @Override
     public void delete(Long id) {
+        Comentario comentario = comentarioRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Comentário com ID " + id + " não encontrado")
+                );
         comentarioRepository.deleteById(id);
     }
 
     @Override
     public ComentarioDTO getComentarioById(Long id) {
         Comentario comentario = comentarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Comentário não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Comentário com ID "
+                        + id + " não encontrado"));
         return new ComentarioDTO(comentario);
     }
 
     @Override
     public List<ComentarioDTO> getComentariosByPontoTuristico(Long pontoTuristicoId) {
+        if (!pontoTuristicoRepository.existsById(pontoTuristicoId)) {
+            throw new RecursoNaoEncontradoException(
+                    "Ponto turístico com ID "
+                            + pontoTuristicoId
+                            + " não encontrado");
+        }
         List<Comentario> comentarios = comentarioRepository.findByPontoTuristicoId(pontoTuristicoId);
         return comentarios.stream().map(ComentarioDTO::new).collect(Collectors.toList());
     }

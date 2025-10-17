@@ -1,5 +1,6 @@
 package br.com.juridico.totvs.fullstack.Backend.controllers;
 
+import br.com.juridico.totvs.fullstack.Backend.repositories.ComentarioRepository;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.comentario.ComentarioCreateUpdateDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.comentario.ComentarioDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.interfaces.ComentarioService;
@@ -16,6 +17,9 @@ public class ComentarioController {
 
     @Autowired
     private ComentarioService comentarioService;
+
+    @Autowired
+    private ComentarioRepository comentarioRepository;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -38,6 +42,7 @@ public class ComentarioController {
     public ComentarioDTO getById(@PathVariable Long id) {
         return comentarioService.getComentarioById(id);
     }
+
 
     @GetMapping("/ponto-turistico/{pontoId}")
     public List<ComentarioDTO> getByPonto(@PathVariable Long pontoId) {
