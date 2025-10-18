@@ -13,6 +13,7 @@ import { ComentariosComponent } from './comentarios/comentarios.component';
 import { CadastroComentarioComponent } from './comentarios/cadastro-comentario/cadastro-comentario.component';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PoInfoModule } from '@po-ui/ng-components';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule,
     PoModule,
+    PoInfoModule,
     PoFieldModule,
     RouterModule.forRoot([]),
     PoTemplatesModule

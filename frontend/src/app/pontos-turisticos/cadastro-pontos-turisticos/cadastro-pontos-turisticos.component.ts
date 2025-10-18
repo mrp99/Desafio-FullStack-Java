@@ -30,7 +30,7 @@ export class CadastroPontosTuristicosComponent implements OnInit {
     this.idPonto = Number(this.route.snapshot.paramMap.get('id')) || null;
 
     this.initForm();
-    this.listaDePaises = this.getListaDePaises();
+    this.carregarPaises();
 
 
     if (this.idPonto) {
@@ -43,9 +43,9 @@ export class CadastroPontosTuristicosComponent implements OnInit {
   private initForm(): void {
     this.formPonto = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      resumo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      resumo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       cidade: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      melhorEstacao: [null],
+      melhorEstacao: ['', [Validators.required]],
       paisId: [null, [Validators.required, Validators.min(1)]]
     });
   }
@@ -58,25 +58,18 @@ export class CadastroPontosTuristicosComponent implements OnInit {
     ];
   }
 
-  public getListaEstacoes(): PoSelectOption[] {
-    return Object.values(Estacoes).map(estacao => ({
-      label: this.formatarLabel(estacao),
-      value: estacao
-    }));
-  }
 
-  private formatarLabel(valor: string): string {
-    const mapa: { [key: string]: string } = {
-      VERAO: 'Verão',
-      OUTONO: 'Outono',
-      INVERNO: 'Inverno',
-      PRIMAVERA: 'Primavera'
-    };
-    return mapa[valor] || valor;
+  public getListaEstacoes(): PoSelectOption[] {
+    return [
+      { label: 'Verão', value: 'Verão' },
+      { label: 'Outono', value: 'Outono' },
+      { label: 'Inverno', value: 'Inverno' },
+      { label: 'Primavera', value: 'Primavera' }
+    ];
   }
 
   private carregarPontoTuristico(): void {
-    this.http.get(`ponto-turistico/${this.idPonto}`).subscribe({
+    this.http.get(`pontos-turisticos/${this.idPonto}`).subscribe({
       next: (res: any) => this.formPonto.patchValue(res),
       error: (error: unknown) => this.exibirErro('Erro ao carregar ponto turístico', error)
     });
@@ -84,7 +77,7 @@ export class CadastroPontosTuristicosComponent implements OnInit {
 
   private carregarPaises(): void {
     this.http.get('pais').subscribe({
-      next: (res: any) => {
+      next: (res: any[]) => {
         this.listaDePaises = res.map((pais: any) => ({
           label: pais.nome,
           value: pais.id
@@ -118,6 +111,8 @@ export class CadastroPontosTuristicosComponent implements OnInit {
 
   private enviarPost(): void {
     const { nome, resumo, cidade, melhorEstacao, paisId } = this.formPonto.value;
+    console.log(nome, resumo, cidade, melhorEstacao, paisId);
+
 
     const novoPonto: NovoPontoTuristico = {
       nome: nome.trim(),
@@ -127,7 +122,7 @@ export class CadastroPontosTuristicosComponent implements OnInit {
       paisId: Number(paisId)
     }
 
-    this.http.post('ponto-turistico', novoPonto).subscribe({
+    this.http.post('pontos-turisticos', novoPonto).subscribe({
       next: () => {
         this.poNotification.success('Ponto turístico cadastrado com sucesso!');
         this.voltar();
@@ -137,7 +132,7 @@ export class CadastroPontosTuristicosComponent implements OnInit {
   }
 
   private enviarPut(): void {
-    this.http.put(`ponto-turistico/${this.idPonto}`, this.formPonto.value).subscribe({
+    this.http.put(`pontos-turisticos/${this.idPonto}`, this.formPonto.value).subscribe({
       next: () => {
         this.poNotification.success('Ponto turístico atualizado com sucesso!');
         this.voltar();
@@ -147,9 +142,18 @@ export class CadastroPontosTuristicosComponent implements OnInit {
   }
 
   private exibirErro(contexto: string, error: unknown): void {
-    const mensagem = error instanceof Error ? error.message : String(error);
+    let mensagem = '';
+    if (error instanceof Error) {
+      mensagem = error.message;
+    } else if (typeof error === 'object' && error !== null) {
+      const errObj = error as any;
+      mensagem = errObj.error?.message || errObj.message || JSON.stringify(errObj);
+    } else {
+      mensagem = String(error);
+    }
     this.poNotification.error(`${contexto}: ${mensagem}`);
   }
+
 
   public voltar(): void {
     this.router.navigate(['/pontos-turisticos']);

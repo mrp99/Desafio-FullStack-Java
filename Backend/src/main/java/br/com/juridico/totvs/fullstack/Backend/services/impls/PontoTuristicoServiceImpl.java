@@ -9,9 +9,7 @@ import br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto.PontoTuristic
 import br.com.juridico.totvs.fullstack.Backend.services.dtos.ponto.PontoTuristicoDTO;
 import br.com.juridico.totvs.fullstack.Backend.services.interfaces.PontoTuristicoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,9 +27,7 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
     @Override
     public PontoTuristicoDTO create(PontoTuristicoCreateUpdateDTO dto) {
         Pais pais = paisRepository.findById(dto.getPaisId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException(
-                        "País com ID " + dto.getPaisId() + " não encontrado")
-                );
+                .orElseThrow(() -> new RuntimeException("País não encontrado"));
 
         PontoTuristico ponto = new PontoTuristico();
         ponto.setNome(dto.getNome());

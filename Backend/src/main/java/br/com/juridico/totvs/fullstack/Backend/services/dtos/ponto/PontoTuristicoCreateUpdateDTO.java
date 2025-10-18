@@ -17,7 +17,7 @@ public class PontoTuristicoCreateUpdateDTO {
     private String resumo;
 
     @NotNull(message = "A estação ideal é obrigatória")
-    private Estacoes melhorEstacao;
+    private String melhorEstacao;
 
     @NotNull(message = "O país é obrigatório")
     private Long paisId;
@@ -48,11 +48,11 @@ public class PontoTuristicoCreateUpdateDTO {
         this.resumo = resumo;
     }
 
-    public Estacoes getMelhorEstacao() {
+    public String getMelhorEstacao() {
         return melhorEstacao;
     }
 
-    public void setMelhorEstacao(Estacoes melhorEstacao) {
+    public void setMelhorEstacao(String melhorEstacao) {
         this.melhorEstacao = melhorEstacao;
     }
 

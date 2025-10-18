@@ -28,10 +28,20 @@
     <!-- Campo resumo ocupando toda a largura -->
     <div class="po-row">
       <div class="po-col po-md-12">
-        <po-textarea formControlName="resumo" p-label="Resumo" rows="4">
+        <po-textarea formControlName="resumo" p-label="Resumo" rows="4" maxlength="100" style="white-space: pre-line;">
         </po-textarea>
+
+        <div class="po-text-small po-text-right" style="margin-top: 4px;">
+          {{ formPonto.get('resumo')?.value?.length || 0 }}/100 caracteres
+        </div>
+
+        <div *ngIf="formPonto.get('resumo')?.hasError('maxlength') && formPonto.get('resumo')?.touched"
+          class="po-text-danger">
+          Máximo de 100 caracteres permitidos.
+        </div>
       </div>
     </div>
+
 
   </form>
 

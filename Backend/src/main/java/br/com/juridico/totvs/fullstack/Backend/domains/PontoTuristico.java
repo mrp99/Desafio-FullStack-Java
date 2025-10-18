@@ -1,9 +1,8 @@
 package br.com.juridico.totvs.fullstack.Backend.domains;
 
-import br.com.juridico.totvs.fullstack.Backend.domains.enums.Estacoes;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +24,9 @@ public class PontoTuristico {
     @Column(nullable = false)
     private String resumo;
 
+    @NotNull(message = "A estação é obrigatória")
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Estacoes melhorEstacao;
+    private String melhorEstacao;
 
     @ManyToOne
     @JoinColumn(name = "pais_id", nullable = false)
@@ -38,7 +37,7 @@ public class PontoTuristico {
 
     public PontoTuristico() {}
 
-    public PontoTuristico(Long id, String nome, String cidade, String resumo, Estacoes melhorEstacao, Pais pais) {
+    public PontoTuristico(Long id, String nome, String cidade, String resumo, String melhorEstacao, Pais pais) {
         this.id = id;
         this.nome = nome;
         this.cidade = cidade;
@@ -80,11 +79,11 @@ public class PontoTuristico {
         this.resumo = resumo;
     }
 
-    public Estacoes getMelhorEstacao() {
+    public String getMelhorEstacao() {
         return melhorEstacao;
     }
 
-    public void setMelhorEstacao(Estacoes melhorEstacao) {
+    public void setMelhorEstacao(String melhorEstacao) {
         this.melhorEstacao = melhorEstacao;
     }
 

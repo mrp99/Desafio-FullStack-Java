@@ -16,7 +16,7 @@ public class PontoTuristicoDTO {
     private String nome;
     private String cidade;
     private String resumo;
-    private Estacoes melhorEstacao;
+    private String melhorEstacao;
     private Long paisId;
 
     // Saída (GET)
@@ -72,11 +72,11 @@ public class PontoTuristicoDTO {
         this.resumo = resumo;
     }
 
-    public Estacoes getMelhorEstacao() {
+    public String getMelhorEstacao() {
         return melhorEstacao;
     }
 
-    public void setMelhorEstacao(Estacoes melhorEstacao) {
+    public void setMelhorEstacao(String melhorEstacao) {
         this.melhorEstacao = melhorEstacao;
     }
 

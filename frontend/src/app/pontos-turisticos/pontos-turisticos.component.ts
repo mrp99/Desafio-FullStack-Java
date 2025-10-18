@@ -20,7 +20,6 @@ export class PontosTuristicosComponent implements OnInit {
     private poNotification: PoNotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-
   ) { }
 
   public ngOnInit(): void {
@@ -32,7 +31,7 @@ export class PontosTuristicosComponent implements OnInit {
       {
         label: 'Editar',
         icon: 'po-icon-edit',
-        action: (row: PontoTuristico) => { this.navegarParaCadastroPontoTuristico(row.id.toString()) }
+        action: (row: PontoTuristico) => { this.navegarLista(row.id.toString()) }
       },
       {
         label: 'Excluir',
@@ -43,7 +42,7 @@ export class PontosTuristicosComponent implements OnInit {
   }
 
   public deletarCadastro(id: number): void {
-    this.httpService.delete('ponto-turistico/' + id).subscribe({
+    this.httpService.delete('pontos-turisticos/' + id).subscribe({
       next: () => {
         this.poNotification.success('Registro excluido com sucesso!');
         this.carregarPontos();
@@ -54,15 +53,13 @@ export class PontosTuristicosComponent implements OnInit {
     });
   }
 
-  public navegarParaCadastroPontoTuristico(idPonto: string = '') {
-
-    const rota = idPonto ? ['/ponto-turistico', idPonto] : ['/ponto-turistico/novo'];
+  public navegarLista(idPonto: string = '') {
+    const rota = idPonto ? ['/pontos-turisticos', idPonto] : ['/pontos-turisticos/novo'];
     this.router.navigate(rota);
   }
 
-
   public carregarPontos() {
-    this.httpService.get('ponto-turistico').subscribe({
+    this.httpService.get('pontos-turisticos').subscribe({
 
       next: (resposta) => {
 

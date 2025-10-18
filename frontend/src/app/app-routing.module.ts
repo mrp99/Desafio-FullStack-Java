@@ -16,7 +16,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'ponto-turistico',
+    path: 'pontos-turisticos',
     children: [
       { path: '', component: PontosTuristicosComponent },
       { path: 'novo', component: CadastroPontosTuristicosComponent },
